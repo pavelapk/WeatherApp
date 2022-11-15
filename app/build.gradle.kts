@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -34,10 +35,20 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        dataBinding = false
+        viewBinding = true
+    }
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 dependencies {
     val lifecycleVersion = "2.5.1"
+    val hiltVersion = "2.44.2"
 
     // Android
     implementation("androidx.core:core-ktx:1.9.0")
@@ -60,6 +71,10 @@ dependencies {
 
     // View binding
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

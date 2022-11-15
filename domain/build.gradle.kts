@@ -37,6 +37,9 @@ dependencies {
     // Kotlin
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 
+    // DI
+    api("javax.inject:javax.inject:1")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
 }
