@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_current_weather_bg">
+
+    <TextView
+        android:id="@+id/textViewCurrentDay"
+        style="@style/Text.Black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="сегодня, 15 ноября" />
+
+    <TextView
+        android:id="@+id/textViewCurrentDayTemp"
+        style="@style/Text.White"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentDay"
+        tools:text="Макс. 2°, мин. -1°" />
+
+    <TextView
+        android:id="@+id/textViewCurrentTime"
+        style="@style/Text.White"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentDayTemp"
+        tools:text="сейчас, 21:00" />
+
+    <TextView
+        android:id="@+id/textViewCurrentTemp"
+        style="@style/Text.White"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentTime"
+        tools:text="2 °C" />
+
+    <TextView
+        android:id="@+id/textViewCurrentWind"
+        style="@style/Text.White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/wind"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentTemp" />
+
+    <TextView
+        android:id="@+id/textViewCurrentWindSpeed"
+        style="@style/Text.White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentWind"
+        tools:text="4.9 м/c ЮЗ" />
+
+    <ImageView
+        android:id="@+id/imageViewWindDirection"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:rotation="42"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewCurrentWindSpeed"
+        app:layout_constraintStart_toEndOf="@+id/textViewCurrentWindSpeed"
+        app:layout_constraintTop_toTopOf="@+id/textViewCurrentWindSpeed"
+        app:srcCompat="@android:drawable/arrow_up_float" />
+
+    <ImageView
+        android:id="@+id/imageViewWeather"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewCurrentTemp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentDayTemp"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/textViewCurrentWeather"
+        style="@style/Text.White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/imageViewWeather"
+        app:layout_constraintStart_toStartOf="@id/imageViewWeather"
+        app:layout_constraintTop_toBottomOf="@id/imageViewWeather"
+        tools:text="Облачно" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
