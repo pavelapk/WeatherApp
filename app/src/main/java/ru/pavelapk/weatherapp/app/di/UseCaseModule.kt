@@ -4,14 +4,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ru.pavelapk.weatherapp.domain.weather.GetCurrentWeatherUseCase
-import ru.pavelapk.weatherapp.domain.weather.GetCurrentWeatherUseCaseImpl
+import ru.pavelapk.weatherapp.domain.weather.GetWeatherUseCase
+import ru.pavelapk.weatherapp.domain.weather.GetWeatherUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
 interface UseCaseModule {
 
     @Binds
-    fun getCurrentWeatherUseCase(getCurrentWeatherUseCaseImpl: GetCurrentWeatherUseCaseImpl): GetCurrentWeatherUseCase
+    fun getWeatherUseCase(getWeatherUseCaseImpl: GetWeatherUseCaseImpl): GetWeatherUseCase
 
 }

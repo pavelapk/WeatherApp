@@ -1,9 +1,54 @@
 <resources>
     <string name="app_name">WeatherApp</string>
-    <string name="wind">Ветер</string>
+
+    <string name="temperature">%d°</string>
     <string name="current_day_temperature">Макс. %d°, мин. %d°</string>
     <string name="current_temperature">%d °C</string>
+    <string name="wind">Ветер</string>
     <string name="current_wind">%.1f м/c %s</string>
-    <string name="temperature">%d°</string>
+
     <string name="city">Город</string>
+
+    <string-array name="cardinal_directions">
+        <item>С</item>
+        <item>СВ</item>
+        <item>В</item>
+        <item>ЮВ</item>
+        <item>Ю</item>
+        <item>ЮЗ</item>
+        <item>З</item>
+        <item>СЗ</item>
+    </string-array>
+
+    <string name="unknown_weather_code">Неизвестный тип погоды</string>
+    <string-array name="weather_codes">
+        <item>0|Ясно</item>
+        <item>1|Преимущественно ясно</item>
+        <item>2|Переменная облачность</item>
+        <item>3|Пасмурно</item>
+        <item>45|Туман</item>
+        <item>48|Туман</item>
+        <item>51|Мелкий дождь</item>
+        <item>53|Мелкий дождь</item>
+        <item>55|Мелкий дождь</item>
+        <item>56|Морозный мелкий дождь</item>
+        <item>57|Морозный мелкий дождь</item>
+        <item>61|Небольшой дождь</item>
+        <item>63|Дождь</item>
+        <item>65|Сильный дождь</item>
+        <item>66|Ледяной дождь</item>
+        <item>67|Ледяной дождь</item>
+        <item>71|Небольшой снегопад</item>
+        <item>73|Снегопад</item>
+        <item>75|Сильный снегопад</item>
+        <item>77|Снежные зерна</item>
+        <item>80|Ливень</item>
+        <item>81|Ливень</item>
+        <item>82|Ливень</item>
+        <item>85|Снежный дождь</item>
+        <item>86|Снежный дождь</item>
+        <item>95|Гроза</item>
+        <item>96|Гроза с градом</item>
+        <item>99|Гроза с градом</item>
+    </string-array>
 </resources>

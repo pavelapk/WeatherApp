@@ -26,14 +26,11 @@ data class DailyDto(
         weathercode[i],
         temperatureMax[i].roundToInt(),
         temperatureMin[i].roundToInt(),
+        sunrise[i],
+        sunset[i]
     )
 
     fun toDomain() = time.indices.map { i ->
-        DayWeather(
-            time[i],
-            weathercode[i],
-            temperatureMax[i].roundToInt(),
-            temperatureMin[i].roundToInt(),
-        )
+        dayToDomain(i)
     }
 }

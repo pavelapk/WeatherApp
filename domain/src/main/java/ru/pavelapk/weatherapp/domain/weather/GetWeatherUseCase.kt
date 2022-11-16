@@ -7,11 +7,11 @@ import ru.pavelapk.weatherapp.domain.common.usecase.FlowUseCaseWithoutParam
 import ru.pavelapk.weatherapp.domain.weather.model.CurrentWeather
 import javax.inject.Inject
 
-interface GetCurrentWeatherUseCase : FlowUseCaseWithoutParam<CurrentWeather>
+interface GetWeatherUseCase : FlowUseCaseWithoutParam<CurrentWeather>
 
-class GetCurrentWeatherUseCaseImpl @Inject constructor(
+class GetWeatherUseCaseImpl @Inject constructor(
     private val weatherRemoteDataSource: WeatherRemoteDataSource
-) : GetCurrentWeatherUseCase {
+) : GetWeatherUseCase {
     override fun execute(): Flow<Result<CurrentWeather>> = flow {
         val now = Clock.System.now()
         val today = now.toLocalDateTime(TimeZone.currentSystemDefault()).date

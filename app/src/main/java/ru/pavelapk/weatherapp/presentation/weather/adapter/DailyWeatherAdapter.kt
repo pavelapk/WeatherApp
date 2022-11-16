@@ -11,6 +11,8 @@ import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.ItemWeatherDayBinding
 import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
 import ru.pavelapk.weatherapp.presentation.common.adapter.createDiff
+import ru.pavelapk.weatherapp.presentation.common.utils.DateTimeUtils
+import ru.pavelapk.weatherapp.presentation.common.utils.WeatherUtils
 
 class DailyWeatherAdapter :
     ListAdapter<DayWeather, DailyWeatherAdapter.DayWeatherViewHolder>(DIFF) {
@@ -31,15 +33,17 @@ class DailyWeatherAdapter :
         fun bind(data: DayWeather) = with(binding) {
             val context = root.context
 
-            textViewDate.text = data.date.toString()
-            textViewWeather.text = data.weatherCode.toString()
+            textViewDate.text = DateTimeUtils.formatDate(data.date)
+            textViewWeather.text =
+                WeatherUtils.getWeatherCodeName(data.weatherCode, context.resources)
             textViewMaxTemp.text = context.getString(R.string.temperature, data.maxTemp)
             textViewMinTemp.text = context.getString(R.string.temperature, data.minTemp)
-            // TODO picture
+
+            val imageRes = WeatherUtils.getWeatherCodeImage(data.weatherCode, false)
             imageViewWeather.setImageDrawable(
                 AppCompatResources.getDrawable(
-                    root.context,
-                    R.drawable.ic_weather_cloudy_day
+                    context,
+                    imageRes
                 )
             )
         }

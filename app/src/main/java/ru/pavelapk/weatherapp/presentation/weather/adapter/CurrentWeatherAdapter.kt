@@ -7,6 +7,9 @@ import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.ItemWeatherCurrentBinding
 import ru.pavelapk.weatherapp.domain.weather.model.CurrentWeather
 import ru.pavelapk.weatherapp.presentation.common.adapter.SingleAdapter
+import ru.pavelapk.weatherapp.presentation.common.utils.DateTimeUtils
+import ru.pavelapk.weatherapp.presentation.common.utils.WeatherUtils
+import ru.pavelapk.weatherapp.presentation.weather.model.HourWeatherDayNight
 
 class CurrentWeatherAdapter : SingleAdapter<CurrentWeather>(R.layout.item_weather_current) {
     override fun createViewHolder(view: View) = CurrentWeatherViewHolder(view)
@@ -22,31 +25,50 @@ class CurrentWeatherAdapter : SingleAdapter<CurrentWeather>(R.layout.item_weathe
 
         override fun bind(data: CurrentWeather) = with(binding) {
             val context = root.context
-            textViewCurrentDay.text = data.currentDayWeather.date.toString()
+            textViewCurrentDay.text = DateTimeUtils.formatDate(data.currentDayWeather.date)
             textViewCurrentDayTemp.text = context.getString(
                 R.string.current_day_temperature,
                 data.currentDayWeather.maxTemp,
                 data.currentDayWeather.minTemp
             )
-            textViewCurrentTime.text = data.time.toString()
+            textViewCurrentTime.text = DateTimeUtils.formatTime(data.time)
             textViewCurrentTemp.text = context.getString(R.string.current_temperature, data.temp)
-            // TODO picture
-            imageViewWeather.setImageDrawable(
-                AppCompatResources.getDrawable(
-                    context,
-                    R.drawable.ic_weather_cloudy_day
-                )
+
+            val isNight = WeatherUtils.isNight(
+                data.time,
+                data.currentDayWeather.sunrise,
+                data.currentDayWeather.sunset
             )
-            textViewCurrentWeather.text = data.weatherCode.toString()
+            val imageRes = WeatherUtils.getWeatherCodeImage(data.weatherCode, isNight)
+            imageViewWeather.setImageDrawable(AppCompatResources.getDrawable(context, imageRes))
+
+            textViewCurrentWeather.text =
+                WeatherUtils.getWeatherCodeName(data.weatherCode, context.resources)
             textViewCurrentWindSpeed.text = context.getString(
                 R.string.current_wind,
                 data.windSpeed,
-                "ЮЗ" /* TODO */
+                directionToName(data.windDirection)
             )
-            imageViewWindDirection.rotation = data.windDirection.toFloat()
+            imageViewWindDirection.rotation = data.windDirection.toFloat() + 180
 
-            hourlyWeatherAdapter.submitList(data.hourlyWeather)
+            hourlyWeatherAdapter.submitList(data.hourlyWeather.map {
+                HourWeatherDayNight(
+                    hourWeather = it,
+                    isNight = WeatherUtils.isNight(
+                        it.time,
+                        data.currentDayWeather.sunrise,
+                        data.currentDayWeather.sunset
+                    )
+                )
+            })
         }
 
+        private fun directionToName(dir: Double): String {
+            val resources = binding.root.context.resources
+            val directionNames = resources.getStringArray(R.array.cardinal_directions)
+
+            val i = (dir + 22.5).toInt() % 360 / 45
+            return directionNames[i]
+        }
     }
 }

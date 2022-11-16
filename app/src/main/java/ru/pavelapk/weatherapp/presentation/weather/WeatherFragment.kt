@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ConcatAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.FragmentWeatherBinding
 import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
@@ -39,28 +40,18 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         viewModel.currentWeather.observe(requireActivity()) {
             currentWeatherAdapter.submitData(it)
         }
-//        currentWeatherAdapter.submitData(
-//            CurrentWeather(
-//                DayWeather(LocalDate(2022, 11, 15), 0, 5, -5),
-//                LocalDateTime(2022, 11, 15, 19, 16), 2, 0, 4.7, 190.0,
-//                List(10) {
-//                    HourWeather(LocalTime(7 + it, 0), 0, -3 + it)
-//                }
-//            )
-//        )
 
         dailyWeatherAdapter.submitList(
-            List(3) {
-                listOf(
-                    DayWeather(LocalDate(2022, 11, 15), 0, 5, -5),
-                    DayWeather(LocalDate(2022, 11, 16), 0, 5, -5),
-                    DayWeather(LocalDate(2022, 11, 17), 0, 5, -5),
-                    DayWeather(LocalDate(2022, 11, 18), 0, 5, -5),
-                    DayWeather(LocalDate(2022, 11, 19), 0, 5, -5),
-                    DayWeather(LocalDate(2022, 11, 20), 0, 5, -5),
-                    DayWeather(LocalDate(2022, 11, 21), 0, 5, -5),
+            List(10) {
+                DayWeather(
+                    LocalDate(2022, 11, 15 + it),
+                    it,
+                    5,
+                    -5,
+                    LocalDateTime(1, 1, 1, 0, 0),
+                    LocalDateTime(1, 1, 1, 0, 0)
                 )
-            }.flatten()
+            }
         )
     }
 
