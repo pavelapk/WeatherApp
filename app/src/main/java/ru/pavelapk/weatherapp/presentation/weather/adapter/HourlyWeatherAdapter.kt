@@ -38,7 +38,7 @@ class HourlyWeatherAdapter :
                     R.drawable.ic_weather_cloudy_day
                 )
             )
-            textViewTime.text = data.time.toString()
+            textViewTime.text = data.time.time.toString()
         }
     }
 

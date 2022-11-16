@@ -1,9 +1,9 @@
 package ru.pavelapk.weatherapp.domain.weather.model
 
-import kotlinx.datetime.LocalTime
+import kotlinx.datetime.LocalDateTime
 
 data class HourWeather(
-    val time: LocalTime,
+    val time: LocalDateTime,
     val weatherCode: Int,
     val temp: Int,
 )

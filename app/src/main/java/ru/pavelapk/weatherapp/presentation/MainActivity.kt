@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import dagger.hilt.android.AndroidEntryPoint
 import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.presentation.weather.WeatherFragment
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
