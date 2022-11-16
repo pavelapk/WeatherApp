@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/img_current_weather_bg">
 
     <TextView
         android:id="@+id/textViewCurrentDay"
-        style="@style/Text.Black"
+        style="@style/Text.Shadow.Black"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/textViewCurrentDayTemp"
-        style="@style/Text.White"
+        style="@style/Text.Shadow.White"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/textViewCurrentTime"
-        style="@style/Text.White"
+        style="@style/Text.Shadow.White"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -47,7 +47,7 @@
 
     <TextView
         android:id="@+id/textViewCurrentTemp"
-        style="@style/Text.White"
+        style="@style/Text.Shadow.White"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
 
     <TextView
         android:id="@+id/textViewCurrentWind"
-        style="@style/Text.White"
+        style="@style/Text.Shadow.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -73,7 +73,7 @@
 
     <TextView
         android:id="@+id/textViewCurrentWindSpeed"
-        style="@style/Text.White"
+        style="@style/Text.Shadow.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -96,8 +96,8 @@
 
     <ImageView
         android:id="@+id/imageViewWeather"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="@id/textViewCurrentTemp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +106,7 @@
 
     <TextView
         android:id="@+id/textViewCurrentWeather"
-        style="@style/Text.White"
+        style="@style/Text.Shadow.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
@@ -114,5 +114,20 @@
         app:layout_constraintStart_toStartOf="@id/imageViewWeather"
         app:layout_constraintTop_toBottomOf="@id/imageViewWeather"
         tools:text="Облачно" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerHourlyWeather"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewCurrentWindSpeed"
+        tools:listitem="@layout/item_weather_hour" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

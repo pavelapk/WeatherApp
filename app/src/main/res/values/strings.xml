@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">WeatherApp</string>
     <string name="wind">Ветер</string>
+    <string name="current_day_temperature">Макс. %d°, мин. %d°</string>
+    <string name="current_temperature">%d °C</string>
+    <string name="current_wind">%.1f м/c %s</string>
+    <string name="temperature">%d°</string>
+    <string name="city">Город</string>
 </resources>

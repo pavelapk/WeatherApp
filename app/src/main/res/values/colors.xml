@@ -4,9 +4,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="primary">#65BAD4</color>
-    <color name="secondary">#2D2D2D</color>
+    <color name="secondary">#606060</color>
 
-    <color name="dividerColor">#B2B2B2</color>
+    <color name="dividerColor">#40B2B2B2</color>
 
     <color name="gradientStart">#65BAD4</color>
     <color name="gradientMiddle">#F281C9E0</color>
