@@ -60,6 +60,9 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
 
+    // Splash screen
+    implementation("androidx.core:core-splashscreen:1.0.0")
+
     // Kotlin
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
