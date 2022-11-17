@@ -1,9 +1,7 @@
 package ru.pavelapk.weatherapp.presentation.common.utils
 
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.*
+import kotlinx.datetime.TimeZone
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -16,4 +14,10 @@ object DateTimeUtils {
 
     fun formatTime(time: LocalDateTime): String =
         time.toJavaLocalDateTime().format(timeFormatter.withLocale(Locale.getDefault()))
+
+    fun LocalDateTime.plus(amount: Int, unit: DateTimeUnit.TimeBased): LocalDateTime {
+        val instant = toInstant(TimeZone.UTC)
+        val newInstant = instant.plus(amount, unit)
+        return newInstant.toLocalDateTime(TimeZone.UTC)
+    }
 }
