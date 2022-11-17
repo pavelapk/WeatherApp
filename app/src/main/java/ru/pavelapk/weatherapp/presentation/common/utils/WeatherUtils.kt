@@ -2,7 +2,6 @@ package ru.pavelapk.weatherapp.presentation.common.utils
 
 import android.content.res.Resources
 import androidx.annotation.DrawableRes
-import kotlinx.datetime.LocalDateTime
 import ru.pavelapk.weatherapp.R
 
 object WeatherUtils {
@@ -72,7 +71,4 @@ object WeatherUtils {
             }
         }
     }
-
-    fun isNight(time: LocalDateTime, sunrise: LocalDateTime, sunset: LocalDateTime) =
-        time !in sunrise..sunset
 }

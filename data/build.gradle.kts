@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.serialization")
+    id("com.google.devtools.ksp") version "1.7.21-1.0.8"
 }
 
 android {
@@ -47,6 +48,7 @@ android {
 }
 
 dependencies {
+
     // Kotlin Serialization
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
@@ -56,6 +58,12 @@ dependencies {
 
     // Logging
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.10")
+
+    // Room
+    val roomVersion = "2.4.3"
+    api("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

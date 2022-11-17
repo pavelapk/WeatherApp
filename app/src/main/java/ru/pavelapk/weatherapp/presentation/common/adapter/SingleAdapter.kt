@@ -6,25 +6,32 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
-/**
- * It always has 1 ViewHolder.
- * Use for ViewHolders like as Footer, Header and etc. with data set
- */
 abstract class SingleAdapter<T : Any>(
     @LayoutRes private val layoutRes: Int
-) : RecyclerView.Adapter<SingleAdapter.SingleViewHolder<T>>() {
+) : RecyclerView.Adapter<SingleAdapter.SingleViewHolder<T>>(), VisibilityControl {
 
     protected var data: T? = null
         private set
 
+    override var isVisible: Boolean = true
+        set(value) {
+            if (field == value) return
+            field = value
+            onDataChanged(data)
+        }
+
     abstract fun createViewHolder(view: View): SingleViewHolder<T>
 
-    fun submitData(data: T) {
+    fun submitData(data: T?) {
         if (this.data == data) return
         onDataChanged(data)
     }
 
-    override fun getItemCount(): Int = if (data == null) 0 else 1
+    override fun getItemCount(): Int = when {
+        data == null -> 0
+        !isVisible -> 0
+        else -> 1
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SingleViewHolder<T> {
         val view = LayoutInflater.from(parent.context).inflate(layoutRes, parent, false)
@@ -41,6 +48,7 @@ abstract class SingleAdapter<T : Any>(
          where the adapter you want to hide
          */
         when {
+            !isVisible -> Unit
             data == null -> notifyItemInserted(0)
             newData != null -> notifyItemChanged(0)
             else -> notifyItemRemoved(0)

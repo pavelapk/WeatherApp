@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.ItemWeatherHourBinding
+import ru.pavelapk.weatherapp.domain.weather.model.HourWeather
 import ru.pavelapk.weatherapp.presentation.common.adapter.createDiff
 import ru.pavelapk.weatherapp.presentation.common.utils.WeatherUtils
-import ru.pavelapk.weatherapp.presentation.weather.model.HourWeatherDayNight
 
 class HourlyWeatherAdapter :
-    ListAdapter<HourWeatherDayNight, HourlyWeatherAdapter.HourWeatherViewHolder>(DIFF) {
+    ListAdapter<HourWeather, HourlyWeatherAdapter.HourWeatherViewHolder>(DIFF) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourWeatherViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,25 +29,24 @@ class HourlyWeatherAdapter :
     inner class HourWeatherViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding by viewBinding(ItemWeatherHourBinding::bind)
 
-        fun bind(data: HourWeatherDayNight) = with(binding) {
+        fun bind(data: HourWeather) = with(binding) {
             val context = root.context
-            textViewTemp.text = context.getString(R.string.temperature, data.hourWeather.temp)
+            textViewTemp.text = context.getString(R.string.temperature, data.temp)
 
-            val imageRes =
-                WeatherUtils.getWeatherCodeImage(data.hourWeather.weatherCode, data.isNight)
+            val imageRes = WeatherUtils.getWeatherCodeImage(data.weatherCode, data.isNight)
             imageViewWeather.setImageDrawable(
                 AppCompatResources.getDrawable(
                     context,
                     imageRes
                 )
             )
-            textViewTime.text = data.hourWeather.time.time.toString()
+            textViewTime.text = data.time.time.toString()
         }
     }
 
     private companion object {
-        val DIFF = createDiff<HourWeatherDayNight> { oldItem, newItem ->
-            oldItem.hourWeather.time == newItem.hourWeather.time
+        val DIFF = createDiff<HourWeather> { oldItem, newItem ->
+            oldItem.time == newItem.time
         }
     }
 

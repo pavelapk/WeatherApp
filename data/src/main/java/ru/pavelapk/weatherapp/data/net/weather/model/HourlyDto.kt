@@ -1,5 +1,6 @@
 package ru.pavelapk.weatherapp.data.net.weather.model
 
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,12 +14,15 @@ data class HourlyDto(
 
     @SerialName("temperature_2m")
     val temperature: List<Double>
-) {
-    fun toDomain() = time.indices.map { i ->
+)
+
+internal fun HourlyDto.toDomain(dayRange: Map<LocalDate, ClosedRange<LocalDateTime>>) =
+    time.indices.map { i ->
         HourWeather(
-            time[i],
-            weathercode[i],
-            temperature[i].roundToInt()
+            time = time[i],
+            weatherCode = weathercode[i],
+            isNight = dayRange[time[i].date]?.contains(time[i])?.not() ?: false,
+            temp = temperature[i].roundToInt()
         )
     }
-}
+

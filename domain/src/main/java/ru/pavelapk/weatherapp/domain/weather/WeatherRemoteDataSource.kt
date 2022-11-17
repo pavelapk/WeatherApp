@@ -1,21 +1,14 @@
 package ru.pavelapk.weatherapp.domain.weather
 
-import kotlinx.datetime.LocalDate
 import ru.pavelapk.weatherapp.domain.weather.model.CurrentWeather
 import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
+import ru.pavelapk.weatherapp.domain.weather.model.HourWeather
 
 interface WeatherRemoteDataSource {
-    suspend fun getCurrentWeather(
-        lat: Double,
-        long: Double,
-        startDate: LocalDate,
-        endDate: LocalDate
-    ): CurrentWeather
 
-    suspend fun getDailyWeather(
+    suspend fun getWeather(
         lat: Double,
-        long: Double,
-        startDate: LocalDate,
-        endDate: LocalDate
-    ): List<DayWeather>
+        long: Double
+    ): Triple<CurrentWeather, List<HourWeather>, List<DayWeather>>
+
 }

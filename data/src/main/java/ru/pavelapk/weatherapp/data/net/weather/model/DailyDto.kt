@@ -20,17 +20,18 @@ data class DailyDto(
 
     val sunrise: List<LocalDateTime>,
     val sunset: List<LocalDateTime>
-) {
-    fun dayToDomain(i: Int) = DayWeather(
-        time[i],
-        weathercode[i],
-        temperatureMax[i].roundToInt(),
-        temperatureMin[i].roundToInt(),
-        sunrise[i],
-        sunset[i]
-    )
+)
 
-    fun toDomain() = time.indices.map { i ->
-        dayToDomain(i)
-    }
+internal fun DailyDto.dayToDomain(i: Int) = DayWeather(
+    date = time[i],
+    weatherCode = weathercode[i],
+    maxTemp = temperatureMax[i].roundToInt(),
+    minTemp = temperatureMin[i].roundToInt(),
+    sunrise = sunrise[i],
+    sunset = sunset[i]
+)
+
+internal fun DailyDto.toDomain() = time.indices.map { i ->
+    dayToDomain(i)
 }
+

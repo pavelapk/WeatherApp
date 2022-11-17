@@ -14,7 +14,7 @@ import ru.pavelapk.weatherapp.databinding.FragmentWeatherBinding
 import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
 import ru.pavelapk.weatherapp.presentation.weather.adapter.CurrentWeatherAdapter
 import ru.pavelapk.weatherapp.presentation.weather.adapter.DailyWeatherAdapter
-import ru.pavelapk.weatherapp.presentation.weather.adapter.WeatherViewModel
+import ru.pavelapk.weatherapp.presentation.weather.model.WeatherState
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment(R.layout.fragment_weather) {
@@ -33,13 +33,8 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recycler.adapter = concatAdapter
-
-        binding.searchEditText.setText("Томск")
-
-        viewModel.currentWeather.observe(requireActivity()) {
-            currentWeatherAdapter.submitData(it)
-        }
+        initView()
+        initObservers()
 
         dailyWeatherAdapter.submitList(
             List(10) {
@@ -53,6 +48,22 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                 )
             }
         )
+    }
+
+    private fun initView() = with(binding) {
+        binding.recycler.adapter = concatAdapter
+        binding.searchEditText.setText("Томск")
+    }
+
+    private fun initObservers() = with(viewModel) {
+        state.observe(viewLifecycleOwner) {
+            handleState(it)
+        }
+    }
+
+    private fun handleState(state: WeatherState) = with(binding) {
+        currentWeatherAdapter.submitData(state.currentWeather)
+        dailyWeatherAdapter.submitList(state.dailyWeather)
     }
 
     companion object {

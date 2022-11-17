@@ -47,8 +47,6 @@ kapt {
 }
 
 dependencies {
-    val lifecycleVersion = "2.5.1"
-    val hiltVersion = "2.44.2"
 
     // Android
     implementation("androidx.core:core-ktx:1.9.0")
@@ -67,6 +65,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     // Android lifecycle
+    val lifecycleVersion = "2.5.1"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
@@ -76,6 +75,7 @@ dependencies {
     implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.6")
 
     // Hilt
+    val hiltVersion = "2.44.2"
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
 

@@ -16,7 +16,5 @@ interface WeatherService {
         @Query("temperature_unit") temperatureUnit: String,
         @Query("windspeed_unit") windspeedUnit: String,
         @Query("timezone") timezone: String,
-        @Query("start_date") startDate: String,
-        @Query("end_date") endDate: String,
     ): ForecastResponseDto
 }

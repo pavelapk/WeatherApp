@@ -5,16 +5,16 @@ import androidx.appcompat.content.res.AppCompatResources
 import by.kirich1409.viewbindingdelegate.viewBinding
 import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.ItemWeatherCurrentBinding
-import ru.pavelapk.weatherapp.domain.weather.model.CurrentWeather
 import ru.pavelapk.weatherapp.presentation.common.adapter.SingleAdapter
 import ru.pavelapk.weatherapp.presentation.common.utils.DateTimeUtils
 import ru.pavelapk.weatherapp.presentation.common.utils.WeatherUtils
-import ru.pavelapk.weatherapp.presentation.weather.model.HourWeatherDayNight
+import ru.pavelapk.weatherapp.presentation.weather.model.TodayAndCurrentWeather
 
-class CurrentWeatherAdapter : SingleAdapter<CurrentWeather>(R.layout.item_weather_current) {
+class CurrentWeatherAdapter : SingleAdapter<TodayAndCurrentWeather>(R.layout.item_weather_current) {
     override fun createViewHolder(view: View) = CurrentWeatherViewHolder(view)
 
-    inner class CurrentWeatherViewHolder(view: View) : SingleViewHolder<CurrentWeather>(view) {
+    inner class CurrentWeatherViewHolder(view: View) :
+        SingleViewHolder<TodayAndCurrentWeather>(view) {
         private val binding by viewBinding(ItemWeatherCurrentBinding::bind)
 
         private val hourlyWeatherAdapter = HourlyWeatherAdapter()
@@ -23,44 +23,32 @@ class CurrentWeatherAdapter : SingleAdapter<CurrentWeather>(R.layout.item_weathe
             binding.recyclerHourlyWeather.adapter = hourlyWeatherAdapter
         }
 
-        override fun bind(data: CurrentWeather) = with(binding) {
+        override fun bind(data: TodayAndCurrentWeather) = with(binding) {
             val context = root.context
-            textViewCurrentDay.text = DateTimeUtils.formatDate(data.currentDayWeather.date)
+            textViewCurrentDay.text = DateTimeUtils.formatDate(data.today.date)
             textViewCurrentDayTemp.text = context.getString(
                 R.string.current_day_temperature,
-                data.currentDayWeather.maxTemp,
-                data.currentDayWeather.minTemp
+                data.today.maxTemp,
+                data.today.minTemp
             )
-            textViewCurrentTime.text = DateTimeUtils.formatTime(data.time)
-            textViewCurrentTemp.text = context.getString(R.string.current_temperature, data.temp)
+            textViewCurrentTime.text = DateTimeUtils.formatTime(data.current.time)
+            textViewCurrentTemp.text =
+                context.getString(R.string.current_temperature, data.current.temp)
 
-            val isNight = WeatherUtils.isNight(
-                data.time,
-                data.currentDayWeather.sunrise,
-                data.currentDayWeather.sunset
-            )
-            val imageRes = WeatherUtils.getWeatherCodeImage(data.weatherCode, isNight)
+            val imageRes =
+                WeatherUtils.getWeatherCodeImage(data.current.weatherCode, data.current.isNight)
             imageViewWeather.setImageDrawable(AppCompatResources.getDrawable(context, imageRes))
 
             textViewCurrentWeather.text =
-                WeatherUtils.getWeatherCodeName(data.weatherCode, context.resources)
+                WeatherUtils.getWeatherCodeName(data.current.weatherCode, context.resources)
             textViewCurrentWindSpeed.text = context.getString(
                 R.string.current_wind,
-                data.windSpeed,
-                directionToName(data.windDirection)
+                data.current.windSpeed,
+                directionToName(data.current.windDirection)
             )
-            imageViewWindDirection.rotation = data.windDirection.toFloat() + 180
+            imageViewWindDirection.rotation = data.current.windDirection.toFloat() + 180
 
-            hourlyWeatherAdapter.submitList(data.hourlyWeather.map {
-                HourWeatherDayNight(
-                    hourWeather = it,
-                    isNight = WeatherUtils.isNight(
-                        it.time,
-                        data.currentDayWeather.sunrise,
-                        data.currentDayWeather.sunset
-                    )
-                )
-            })
+            hourlyWeatherAdapter.submitList(data.hourly)
         }
 
         private fun directionToName(dir: Double): String {
