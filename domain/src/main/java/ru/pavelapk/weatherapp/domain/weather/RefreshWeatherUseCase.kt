@@ -1,19 +1,20 @@
 package ru.pavelapk.weatherapp.domain.weather
 
-import ru.pavelapk.weatherapp.domain.common.usecase.UseCaseWithoutParam
+import ru.pavelapk.weatherapp.domain.common.usecase.UseCase
+import ru.pavelapk.weatherapp.domain.location.model.Location
+import ru.pavelapk.weatherapp.domain.weather.datasource.WeatherLocalDataSource
+import ru.pavelapk.weatherapp.domain.weather.datasource.WeatherRemoteDataSource
 import javax.inject.Inject
 
-interface RefreshWeatherUseCase : UseCaseWithoutParam<Unit>
+interface RefreshWeatherUseCase : UseCase<Location, Unit>
 
 class RefreshWeatherUseCaseImpl @Inject constructor(
     private val weatherLocalDataSource: WeatherLocalDataSource,
     private val weatherRemoteDataSource: WeatherRemoteDataSource
 ) : RefreshWeatherUseCase {
-    override suspend fun execute(): Result<Unit> {
-        // TODO get location from db
+    override suspend fun execute(param: Location): Result<Unit> {
         val (currentWeather, hourlyWeather, dailyWeather) = weatherRemoteDataSource.getWeather(
-            56.60,
-            84.88
+            param.coordinates
         )
         weatherLocalDataSource.updateCurrentWeather(currentWeather)
         weatherLocalDataSource.updateHourlyWeather(hourlyWeather)
@@ -21,5 +22,4 @@ class RefreshWeatherUseCaseImpl @Inject constructor(
 
         return Result.success(Unit)
     }
-
 }

@@ -25,12 +25,19 @@ class CurrentWeatherAdapter : SingleAdapter<TodayAndCurrentWeather>(R.layout.ite
 
         override fun bind(data: TodayAndCurrentWeather) = with(binding) {
             val context = root.context
-            textViewCurrentDay.text = DateTimeUtils.formatDate(data.today.date)
-            textViewCurrentDayTemp.text = context.getString(
-                R.string.current_day_temperature,
-                data.today.maxTemp,
-                data.today.minTemp
-            )
+
+            if (data.today != null) {
+                textViewCurrentDay.text = DateTimeUtils.formatDate(data.today.date)
+                textViewCurrentDayTemp.text = context.getString(
+                    R.string.current_day_temperature,
+                    data.today.maxTemp,
+                    data.today.minTemp
+                )
+            } else {
+                textViewCurrentDay.text = ""
+                textViewCurrentDayTemp.text = ""
+            }
+
             textViewCurrentTime.text = DateTimeUtils.formatTime(data.current.time)
             textViewCurrentTemp.text =
                 context.getString(R.string.current_temperature, data.current.temp)

@@ -14,6 +14,7 @@
         android:background="@color/primary">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchTextInputLayout"
             style="@style/SearchTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,18 +35,25 @@
                 style="@style/SearchTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/city" />
+                android:enabled="false"
+                android:hint="@string/choose_city" />
         </com.google.android.material.textfield.TextInputLayout>
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="7"
-        tools:listitem="@layout/item_weather_day" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="7"
+            tools:listitem="@layout/item_weather_day" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

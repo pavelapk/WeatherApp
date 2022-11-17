@@ -6,7 +6,7 @@ import ru.pavelapk.weatherapp.data.db.weather.model.DayWeatherEntity
 import ru.pavelapk.weatherapp.data.db.weather.model.HourWeatherEntity
 import ru.pavelapk.weatherapp.data.db.weather.model.toDb
 import ru.pavelapk.weatherapp.data.db.weather.model.toDomain
-import ru.pavelapk.weatherapp.domain.weather.WeatherLocalDataSource
+import ru.pavelapk.weatherapp.domain.weather.datasource.WeatherLocalDataSource
 import ru.pavelapk.weatherapp.domain.weather.model.CurrentWeather
 import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
 import ru.pavelapk.weatherapp.domain.weather.model.HourWeather
@@ -17,8 +17,8 @@ class WeatherLocalDataSourceImpl @Inject constructor(
     private val dayWeatherDao: DayWeatherDao,
     private val hourWeatherDao: HourWeatherDao
 ) : WeatherLocalDataSource {
-    override fun observeCurrentWeather(): Flow<CurrentWeather> =
-        currentWeatherDao.observeCurrentWeather().map { it.toDomain() }
+    override fun observeCurrentWeather(): Flow<CurrentWeather?> =
+        currentWeatherDao.observeCurrentWeather().map { it?.toDomain() }
 
     override suspend fun updateCurrentWeather(currentWeather: CurrentWeather) {
         currentWeatherDao.updateCurrentWeather(currentWeather.toDb())

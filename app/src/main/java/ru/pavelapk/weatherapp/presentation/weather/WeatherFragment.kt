@@ -1,19 +1,21 @@
 package ru.pavelapk.weatherapp.presentation.weather
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.FragmentWeatherBinding
-import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
+import ru.pavelapk.weatherapp.presentation.common.extensions.toast
 import ru.pavelapk.weatherapp.presentation.weather.adapter.CurrentWeatherAdapter
 import ru.pavelapk.weatherapp.presentation.weather.adapter.DailyWeatherAdapter
+import ru.pavelapk.weatherapp.presentation.weather.model.WeatherAction
+import ru.pavelapk.weatherapp.presentation.weather.model.WeatherScreenState
 import ru.pavelapk.weatherapp.presentation.weather.model.WeatherState
 
 @AndroidEntryPoint
@@ -30,40 +32,59 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         dailyWeatherAdapter
     )
 
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        viewModel.onRequestLocationPermissionResult(isGranted)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
         initObservers()
-
-        dailyWeatherAdapter.submitList(
-            List(10) {
-                DayWeather(
-                    LocalDate(2022, 11, 15 + it),
-                    it,
-                    5,
-                    -5,
-                    LocalDateTime(1, 1, 1, 0, 0),
-                    LocalDateTime(1, 1, 1, 0, 0)
-                )
-            }
-        )
     }
 
     private fun initView() = with(binding) {
         binding.recycler.adapter = concatAdapter
-        binding.searchEditText.setText("Томск")
-    }
 
-    private fun initObservers() = with(viewModel) {
-        state.observe(viewLifecycleOwner) {
-            handleState(it)
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshWeather()
+        }
+
+        binding.searchTextInputLayout.setOnClickListener {
+            toast("alo")
         }
     }
 
-    private fun handleState(state: WeatherState) = with(binding) {
+    private fun initObservers() = with(viewModel) {
+        weatherState.observe(viewLifecycleOwner) {
+            handleWeatherState(it)
+        }
+        state.observe(viewLifecycleOwner) {
+            handleState(it)
+        }
+        event.observe(viewLifecycleOwner) {
+            it.getContentIfNotHandled()?.let { action ->
+                when (action) {
+                    WeatherAction.RequestLocationPermission -> locationPermissionRequest.launch(
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    )
+                    WeatherAction.LocationPermissionNotGranted -> toast(R.string.location_permission_not_granted)
+                    is WeatherAction.Error -> toast(action.messageId)
+                }
+            }
+        }
+    }
+
+    private fun handleWeatherState(state: WeatherState) = with(binding) {
         currentWeatherAdapter.submitData(state.currentWeather)
         dailyWeatherAdapter.submitList(state.dailyWeather)
+    }
+
+    private fun handleState(state: WeatherScreenState) = with(binding) {
+        swipeRefresh.isRefreshing = state.isLoading
+        searchEditText.setText(state.locationName)
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package ru.pavelapk.weatherapp.domain.weather
+package ru.pavelapk.weatherapp.domain.weather.datasource
 
 import kotlinx.coroutines.flow.Flow
 import ru.pavelapk.weatherapp.domain.weather.model.CurrentWeather
@@ -6,7 +6,7 @@ import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
 import ru.pavelapk.weatherapp.domain.weather.model.HourWeather
 
 interface WeatherLocalDataSource {
-    fun observeCurrentWeather(): Flow<CurrentWeather>
+    fun observeCurrentWeather(): Flow<CurrentWeather?>
     suspend fun updateCurrentWeather(currentWeather: CurrentWeather)
 
     fun observeDailyWeather(): Flow<List<DayWeather>>

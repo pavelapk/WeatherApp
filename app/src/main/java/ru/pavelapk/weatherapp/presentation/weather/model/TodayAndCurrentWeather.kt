@@ -5,7 +5,7 @@ import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
 import ru.pavelapk.weatherapp.domain.weather.model.HourWeather
 
 data class TodayAndCurrentWeather(
-    val today: DayWeather,
+    val today: DayWeather?,
     val current: CurrentWeather,
     val hourly: List<HourWeather>
 )

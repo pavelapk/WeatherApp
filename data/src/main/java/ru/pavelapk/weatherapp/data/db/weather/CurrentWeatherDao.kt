@@ -10,7 +10,7 @@ import ru.pavelapk.weatherapp.data.db.weather.model.CurrentWeatherEntity
 @Dao
 interface CurrentWeatherDao {
     @Query("SELECT * FROM current_weather ORDER BY id DESC LIMIT 1")
-    fun observeCurrentWeather(): Flow<CurrentWeatherEntity>
+    fun observeCurrentWeather(): Flow<CurrentWeatherEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateCurrentWeather(currentWeatherEntity: CurrentWeatherEntity)

@@ -4,6 +4,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.pavelapk.weatherapp.domain.location.*
 import ru.pavelapk.weatherapp.domain.weather.*
 
 @Module
@@ -22,4 +23,12 @@ interface UseCaseModule {
     @Binds
     fun refreshWeatherUseCase(refreshWeatherUseCaseImpl: RefreshWeatherUseCaseImpl): RefreshWeatherUseCase
 
+    @Binds
+    fun getGetDeviceLocationUseCase(getDeviceLocationUseCaseImpl: GetDeviceLocationUseCaseImpl): GetDeviceLocationUseCase
+
+    @Binds
+    fun updateCurrentLocationUseCase(updateCurrentLocationUseCaseImpl: UpdateCurrentLocationUseCaseImpl): UpdateCurrentLocationUseCase
+
+    @Binds
+    fun getCurrentLocationUseCase(getCurrentLocationUseCaseImpl: GetCurrentLocationUseCaseImpl): GetCurrentLocationUseCase
 }

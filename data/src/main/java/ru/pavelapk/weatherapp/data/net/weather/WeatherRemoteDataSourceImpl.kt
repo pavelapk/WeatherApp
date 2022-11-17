@@ -3,7 +3,8 @@ package ru.pavelapk.weatherapp.data.net.weather
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import ru.pavelapk.weatherapp.data.net.weather.model.toDomain
-import ru.pavelapk.weatherapp.domain.weather.WeatherRemoteDataSource
+import ru.pavelapk.weatherapp.domain.location.model.Coordinates
+import ru.pavelapk.weatherapp.domain.weather.datasource.WeatherRemoteDataSource
 import ru.pavelapk.weatherapp.domain.weather.model.CurrentWeather
 import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
 import ru.pavelapk.weatherapp.domain.weather.model.HourWeather
@@ -14,12 +15,11 @@ class WeatherRemoteDataSourceImpl @Inject constructor(
 ) : WeatherRemoteDataSource {
 
     override suspend fun getWeather(
-        lat: Double,
-        long: Double
+        coordinates: Coordinates,
     ): Triple<CurrentWeather, List<HourWeather>, List<DayWeather>> {
         val forecast = weatherService.getForecast(
-            latitude = lat,
-            longitude = long,
+            latitude = coordinates.latitude,
+            longitude = coordinates.longitude,
             hourly = HourlyParameters,
             daily = DailyParameters,
             currentWeather = true,
