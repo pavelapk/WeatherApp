@@ -32,6 +32,10 @@ class SearchViewModel @Inject constructor(
         queryFlow.value = query
     }
 
+    fun onMyLocationClick() {
+        postEvent(SearchAction.RequestDeviceLocation)
+    }
+
     fun onLocationClick(location: Location) {
         viewModelScope.launch {
             updateCurrentLocationUseCase(location).onSuccess {

@@ -8,8 +8,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import ru.pavelapk.weatherapp.domain.location.GetCurrentLocationUseCase
-import ru.pavelapk.weatherapp.domain.location.GetDeviceLocationUseCase
-import ru.pavelapk.weatherapp.domain.location.UpdateCurrentLocationUseCase
 import ru.pavelapk.weatherapp.domain.weather.ObserveCurrentWeatherUseCase
 import ru.pavelapk.weatherapp.domain.weather.ObserveDayWeatherUseCase
 import ru.pavelapk.weatherapp.domain.weather.ObserveHourWeatherUseCase
@@ -29,9 +27,7 @@ class WeatherViewModel @Inject constructor(
     private val observeHourWeatherUseCase: ObserveHourWeatherUseCase,
     private val observeDayWeatherUseCase: ObserveDayWeatherUseCase,
     private val refreshWeatherUseCase: RefreshWeatherUseCase,
-    private val getDeviceLocationUseCase: GetDeviceLocationUseCase,
     private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
-    private val updateCurrentLocationUseCase: UpdateCurrentLocationUseCase
 ) : StatefulViewModel<WeatherScreenState, WeatherAction>(defaultState = WeatherScreenState()) {
 
     init {
@@ -40,44 +36,21 @@ class WeatherViewModel @Inject constructor(
 
     val weatherState: LiveData<WeatherState> = initObserver().asLiveData()
 
-    // TODO refactor
     fun refreshWeather() {
         viewModelScope.launch {
             updateState { copy(isLoading = true) }
             getCurrentLocationUseCase().onSuccess { location ->
                 if (location == null) {
-                    postEvent(WeatherAction.RequestLocationPermission)
-                    updateState { copy(isLoading = false) }
+                    postEvent(WeatherAction.RequestDeviceLocation)
                 } else {
                     updateState { copy(locationName = location.name) }
                     refreshWeatherUseCase(location).onFailure {
                         postEvent(WeatherAction.Error(errorToStringRes(it)))
                     }
-                    updateState { copy(isLoading = false) }
                 }
             }
+            updateState { copy(isLoading = false) }
         }
-    }
-
-    fun onRequestLocationPermissionResult(isGranted: Boolean) {
-        if (isGranted) {
-            viewModelScope.launch {
-                getAndSaveDeviceLocation()
-                refreshWeather()
-            }
-        } else {
-            postEvent(WeatherAction.LocationPermissionNotGranted)
-        }
-    }
-
-    private suspend fun getAndSaveDeviceLocation() {
-        getDeviceLocationUseCase()
-            .onSuccess {
-                updateState { copy(locationName = it.name) }
-                updateCurrentLocationUseCase(it)
-            }.onFailure {
-                postEvent(WeatherAction.Error(errorToStringRes(it)))
-            }
     }
 
     private fun initObserver() = combine(

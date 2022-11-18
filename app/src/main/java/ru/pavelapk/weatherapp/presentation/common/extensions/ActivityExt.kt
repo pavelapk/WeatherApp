@@ -1,6 +1,8 @@
 package ru.pavelapk.weatherapp.presentation.common.extensions
 
+import android.widget.Toast
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
@@ -11,9 +13,6 @@ fun AppCompatActivity.replaceFragment(
     fragmentTag: String,
     addToBackStack: Boolean = true
 ) {
-    val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-    if (currentFragment?.isVisible == true) return
-
     supportFragmentManager.commit {
         setReorderingAllowed(true)
         if (addToBackStack) {
@@ -23,3 +22,14 @@ fun AppCompatActivity.replaceFragment(
     }
 }
 
+fun AppCompatActivity.toast(text: String) =
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+
+fun AppCompatActivity.toast(@StringRes resId: Int) =
+    Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+
+fun AppCompatActivity.toastLong(text: String) =
+    Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+
+fun AppCompatActivity.toastLong(@StringRes resId: Int) =
+    Toast.makeText(this, resId, Toast.LENGTH_LONG).show()

@@ -17,7 +17,10 @@
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/text_input_layout_stroke_color"
         app:boxStrokeWidth="1dp"
-        app:boxStrokeWidthFocused="1dp">
+
+        app:boxStrokeWidthFocused="1dp"
+        app:endIconDrawable="@drawable/ic_my_location"
+        app:endIconMode="custom">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchEditText"

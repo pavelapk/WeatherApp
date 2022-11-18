@@ -8,7 +8,7 @@
         <item name="boxCornerRadiusTopEnd">8dp</item>
         <item name="boxCornerRadiusTopStart">8dp</item>
         <item name="hintEnabled">false</item>
-        <item name="startIconDrawable">@android:drawable/ic_menu_search</item>
+        <item name="startIconDrawable">@drawable/ic_search</item>
     </style>
 
     <style name="SearchTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.FilledBox">

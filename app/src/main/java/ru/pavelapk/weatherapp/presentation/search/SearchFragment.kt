@@ -45,6 +45,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         searchEditText.doOnTextChanged { text, _, _, _ -> viewModel.onQueryChange(text.toString()) }
 
+        searchTextInputLayout.setEndIconOnClickListener {
+            viewModel.onMyLocationClick()
+        }
+
         recycler.adapter = searchAdapter
     }
 
@@ -57,6 +61,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 when (action) {
                     is SearchAction.Error -> toast(action.messageId)
                     SearchAction.OpenWeatherScreen -> fragmentListener.goToWeather()
+                    SearchAction.RequestDeviceLocation -> fragmentListener.requestDeviceLocation()
                 }
             }
         }
@@ -68,6 +73,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     interface SearchFragmentListener {
         fun goToWeather()
+        fun requestDeviceLocation()
     }
 
     companion object {

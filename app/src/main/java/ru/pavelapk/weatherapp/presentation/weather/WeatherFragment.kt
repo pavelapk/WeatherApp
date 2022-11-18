@@ -1,9 +1,7 @@
 package ru.pavelapk.weatherapp.presentation.weather
 
-import android.Manifest
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
@@ -33,12 +31,6 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         currentWeatherAdapter,
         dailyWeatherAdapter
     )
-
-    private val locationPermissionRequest = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        viewModel.onRequestLocationPermissionResult(isGranted)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,10 +63,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
         event.observe(viewLifecycleOwner) {
             it.getContentIfNotHandled()?.let { action ->
                 when (action) {
-                    WeatherAction.RequestLocationPermission -> locationPermissionRequest.launch(
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    )
-                    WeatherAction.LocationPermissionNotGranted -> toast(R.string.location_permission_not_granted)
+                    WeatherAction.RequestDeviceLocation -> fragmentListener.requestDeviceLocation()
                     is WeatherAction.Error -> toast(action.messageId)
                     WeatherAction.OpenSearchScreen -> fragmentListener.goToSearch()
                 }
@@ -108,6 +97,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     interface WeatherFragmentListener {
         fun goToSearch()
+        fun requestDeviceLocation()
     }
 
     companion object {
