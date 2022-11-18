@@ -11,15 +11,18 @@ data class CurrentLocationEntity(
     val lat: Double,
     val long: Double,
     val locationName: String,
+    val regionName: String
 )
 
 internal fun CurrentLocationEntity.toDomain() = Location(
     name = locationName,
-    coordinates = Coordinates(lat, long)
+    coordinates = Coordinates(lat, long),
+    regionName = regionName
 )
 
 internal fun Location.toDb() = CurrentLocationEntity(
     lat = coordinates.latitude,
     long = coordinates.longitude,
-    locationName = name
+    locationName = name,
+    regionName = regionName
 )

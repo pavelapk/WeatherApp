@@ -3,6 +3,7 @@ package ru.pavelapk.weatherapp.data.net
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,12 +32,14 @@ object Network {
         .build()
 
     fun getHttpClient(
+        interceptors: List<Interceptor> = listOf(),
         isDebug: Boolean
     ): OkHttpClient {
         val httpClientBuilder = OkHttpClient.Builder().apply {
             connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
             readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+            interceptors.forEach { addInterceptor(it) }
             if (isDebug) {
                 val logLevel = HttpLoggingInterceptor.Level.BODY
                 addInterceptor(HttpLoggingInterceptor().setLevel(logLevel))

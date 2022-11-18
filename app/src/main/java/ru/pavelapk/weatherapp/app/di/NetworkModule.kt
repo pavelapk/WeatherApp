@@ -12,6 +12,8 @@ import ru.pavelapk.weatherapp.app.di.qualifiers.GeoRetrofit
 import ru.pavelapk.weatherapp.app.di.qualifiers.WeatherRetrofit
 import ru.pavelapk.weatherapp.data.BuildConfig
 import ru.pavelapk.weatherapp.data.net.Network
+import ru.pavelapk.weatherapp.data.net.common.interceptor.ErrorInterceptor
+import ru.pavelapk.weatherapp.data.net.location.LocationService
 import ru.pavelapk.weatherapp.data.net.weather.WeatherService
 import javax.inject.Singleton
 
@@ -45,6 +47,7 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideClient(): OkHttpClient = Network.getHttpClient(
+        interceptors = listOf(ErrorInterceptor()),
         isDebug = BuildConfig.DEBUG
     )
 
@@ -53,4 +56,11 @@ object NetworkModule {
     fun provideWeatherService(
         @WeatherRetrofit retrofit: Retrofit
     ) = Network.getApi<WeatherService>(retrofit)
+
+    @Singleton
+    @Provides
+    fun provideLocationService(
+        @GeoRetrofit retrofit: Retrofit
+    ) = Network.getApi<LocationService>(retrofit)
+
 }

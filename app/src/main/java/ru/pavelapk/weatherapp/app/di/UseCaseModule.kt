@@ -31,4 +31,7 @@ interface UseCaseModule {
 
     @Binds
     fun getCurrentLocationUseCase(getCurrentLocationUseCaseImpl: GetCurrentLocationUseCaseImpl): GetCurrentLocationUseCase
+
+    @Binds
+    fun findCitiesUseCase(findCitiesUseCaseImpl: FindCitiesUseCaseImpl): FindCitiesUseCase
 }

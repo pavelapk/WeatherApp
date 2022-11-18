@@ -11,7 +11,7 @@
 
     <string name="location_permission_not_granted">Разрешение на местоположение не получено</string>
     <string name="device_location_error">Ошибка при получении местоположения</string>
-    <string name="unknown_error">Неизвествая ошибка</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 
     <string-array name="cardinal_directions">
         <item>С</item>
@@ -26,7 +26,7 @@
 
     <string name="unknown_weather_code">Неизвестный тип погоды</string>
     <string name="no_connection_error">Нет подключения к интернету</string>
-    <string name="fetch_data_error">Ошибка при загрузке данных</string>
+    <string name="api_request_error">Ошибка при выполнении запроса</string>
     <string-array name="weather_codes">
         <item>0|Ясно</item>
         <item>1|Преимущественно ясно</item>

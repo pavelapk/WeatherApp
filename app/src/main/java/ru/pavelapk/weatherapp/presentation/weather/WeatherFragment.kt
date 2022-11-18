@@ -11,7 +11,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.FragmentWeatherBinding
+import ru.pavelapk.weatherapp.presentation.common.extensions.getParentAsListener
 import ru.pavelapk.weatherapp.presentation.common.extensions.toast
+import ru.pavelapk.weatherapp.presentation.common.statusbar.StatusBarColorContract
 import ru.pavelapk.weatherapp.presentation.weather.adapter.CurrentWeatherAdapter
 import ru.pavelapk.weatherapp.presentation.weather.adapter.DailyWeatherAdapter
 import ru.pavelapk.weatherapp.presentation.weather.model.WeatherAction
@@ -22,11 +24,11 @@ import ru.pavelapk.weatherapp.presentation.weather.model.WeatherState
 class WeatherFragment : Fragment(R.layout.fragment_weather) {
     private val binding by viewBinding(FragmentWeatherBinding::bind)
     private val viewModel by viewModels<WeatherViewModel>()
+    private val fragmentListener by lazy { getParentAsListener<WeatherFragmentListener>() }
+    private val statusBarColorListener by lazy { getParentAsListener<StatusBarColorContract>() }
 
     private val currentWeatherAdapter = CurrentWeatherAdapter()
-
     private val dailyWeatherAdapter = DailyWeatherAdapter()
-
     private val concatAdapter = ConcatAdapter(
         currentWeatherAdapter,
         dailyWeatherAdapter
@@ -46,14 +48,16 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
     }
 
     private fun initView() = with(binding) {
-        binding.recycler.adapter = concatAdapter
+        setGradientColor(false)
 
-        binding.swipeRefresh.setOnRefreshListener {
+        recycler.adapter = concatAdapter
+
+        swipeRefresh.setOnRefreshListener {
             viewModel.refreshWeather()
         }
 
-        binding.searchTextInputLayout.setOnClickListener {
-            toast("alo")
+        searchEditText.setOnClickListener {
+            fragmentListener.goToSearch()
         }
     }
 
@@ -72,6 +76,7 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
                     )
                     WeatherAction.LocationPermissionNotGranted -> toast(R.string.location_permission_not_granted)
                     is WeatherAction.Error -> toast(action.messageId)
+                    WeatherAction.OpenSearchScreen -> fragmentListener.goToSearch()
                 }
             }
         }
@@ -79,12 +84,30 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
     private fun handleWeatherState(state: WeatherState) = with(binding) {
         currentWeatherAdapter.submitData(state.currentWeather)
+        setGradientColor(state.currentWeather != null)
         dailyWeatherAdapter.submitList(state.dailyWeather)
     }
 
     private fun handleState(state: WeatherScreenState) = with(binding) {
         swipeRefresh.isRefreshing = state.isLoading
         searchEditText.setText(state.locationName)
+    }
+
+    private fun setGradientColor(isGradientVisible: Boolean) {
+        val color = if (isGradientVisible) {
+            R.color.gradientStart
+        } else {
+            R.color.white
+        }
+        statusBarColorListener.changeStatusBarColor(
+            colorRes = color,
+            isLight = true
+        )
+        binding.searchBackground.setBackgroundColor(requireContext().getColor(color))
+    }
+
+    interface WeatherFragmentListener {
+        fun goToSearch()
     }
 
     companion object {

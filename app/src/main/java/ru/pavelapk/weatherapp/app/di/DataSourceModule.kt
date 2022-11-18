@@ -10,9 +10,11 @@ import dagger.hilt.components.SingletonComponent
 import ru.pavelapk.weatherapp.data.db.location.LocationLocalDataSourceImpl
 import ru.pavelapk.weatherapp.data.db.weather.WeatherLocalDataSourceImpl
 import ru.pavelapk.weatherapp.data.devicelocation.DeviceLocationDataSourceImpl
+import ru.pavelapk.weatherapp.data.net.location.LocationRemoteDataSourceImpl
 import ru.pavelapk.weatherapp.data.net.weather.WeatherRemoteDataSourceImpl
 import ru.pavelapk.weatherapp.domain.location.datasource.DeviceLocationDataSource
 import ru.pavelapk.weatherapp.domain.location.datasource.LocationLocalDataSource
+import ru.pavelapk.weatherapp.domain.location.datasource.LocationRemoteDataSource
 import ru.pavelapk.weatherapp.domain.weather.datasource.WeatherLocalDataSource
 import ru.pavelapk.weatherapp.domain.weather.datasource.WeatherRemoteDataSource
 
@@ -27,10 +29,12 @@ interface DataSourceBindsModule {
     fun bindWeatherLocalDataSource(weatherLocalDataSourceImpl: WeatherLocalDataSourceImpl): WeatherLocalDataSource
 
     @Binds
+    fun bindLocationRemoteDataSource(locationRemoteDataSourceImpl: LocationRemoteDataSourceImpl): LocationRemoteDataSource
+
+    @Binds
     fun bindLocationLocalDataSource(locationLocalDataSourceImpl: LocationLocalDataSourceImpl): LocationLocalDataSource
 
 }
-
 
 @Module
 @InstallIn(SingletonComponent::class)

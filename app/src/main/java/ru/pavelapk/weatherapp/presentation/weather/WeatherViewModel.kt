@@ -7,10 +7,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
-import ru.pavelapk.weatherapp.R
-import ru.pavelapk.weatherapp.domain.common.failure.DeviceLocationFailure
-import ru.pavelapk.weatherapp.domain.common.failure.FetchDataFailure
-import ru.pavelapk.weatherapp.domain.common.failure.NoConnectionFailure
 import ru.pavelapk.weatherapp.domain.location.GetCurrentLocationUseCase
 import ru.pavelapk.weatherapp.domain.location.GetDeviceLocationUseCase
 import ru.pavelapk.weatherapp.domain.location.UpdateCurrentLocationUseCase
@@ -18,6 +14,7 @@ import ru.pavelapk.weatherapp.domain.weather.ObserveCurrentWeatherUseCase
 import ru.pavelapk.weatherapp.domain.weather.ObserveDayWeatherUseCase
 import ru.pavelapk.weatherapp.domain.weather.ObserveHourWeatherUseCase
 import ru.pavelapk.weatherapp.domain.weather.RefreshWeatherUseCase
+import ru.pavelapk.weatherapp.presentation.common.mappers.ErrorMappers.errorToStringRes
 import ru.pavelapk.weatherapp.presentation.common.ui.StatefulViewModel
 import ru.pavelapk.weatherapp.presentation.common.utils.DateTimeUtils.plus
 import ru.pavelapk.weatherapp.presentation.weather.model.TodayAndCurrentWeather
@@ -43,6 +40,7 @@ class WeatherViewModel @Inject constructor(
 
     val weatherState: LiveData<WeatherState> = initObserver().asLiveData()
 
+    // TODO refactor
     fun refreshWeather() {
         viewModelScope.launch {
             updateState { copy(isLoading = true) }
@@ -53,15 +51,7 @@ class WeatherViewModel @Inject constructor(
                 } else {
                     updateState { copy(locationName = location.name) }
                     refreshWeatherUseCase(location).onFailure {
-                        postEvent(
-                            WeatherAction.Error(
-                                when (it) {
-                                    is NoConnectionFailure -> R.string.no_connection_error
-                                    is FetchDataFailure -> R.string.fetch_data_error
-                                    else -> R.string.unknown_error
-                                }
-                            )
-                        )
+                        postEvent(WeatherAction.Error(errorToStringRes(it)))
                     }
                     updateState { copy(isLoading = false) }
                 }
@@ -81,19 +71,13 @@ class WeatherViewModel @Inject constructor(
     }
 
     private suspend fun getAndSaveDeviceLocation() {
-        getDeviceLocationUseCase().onSuccess {
-            updateState { copy(locationName = it.name) }
-            updateCurrentLocationUseCase(it)
-        }.onFailure {
-            postEvent(
-                WeatherAction.Error(
-                    when (it) {
-                        is DeviceLocationFailure -> R.string.device_location_error
-                        else -> R.string.unknown_error
-                    }
-                )
-            )
-        }
+        getDeviceLocationUseCase()
+            .onSuccess {
+                updateState { copy(locationName = it.name) }
+                updateCurrentLocationUseCase(it)
+            }.onFailure {
+                postEvent(WeatherAction.Error(errorToStringRes(it)))
+            }
     }
 
     private fun initObserver() = combine(
@@ -114,6 +98,4 @@ class WeatherViewModel @Inject constructor(
             dailyWeather = dailyWeather
         )
     }
-
-
 }

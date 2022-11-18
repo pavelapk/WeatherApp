@@ -7,7 +7,7 @@ import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.ItemWeatherCurrentBinding
 import ru.pavelapk.weatherapp.presentation.common.adapter.SingleAdapter
 import ru.pavelapk.weatherapp.presentation.common.utils.DateTimeUtils
-import ru.pavelapk.weatherapp.presentation.common.utils.WeatherUtils
+import ru.pavelapk.weatherapp.presentation.common.mappers.WeatherMappers
 import ru.pavelapk.weatherapp.presentation.weather.model.TodayAndCurrentWeather
 
 class CurrentWeatherAdapter : SingleAdapter<TodayAndCurrentWeather>(R.layout.item_weather_current) {
@@ -43,11 +43,11 @@ class CurrentWeatherAdapter : SingleAdapter<TodayAndCurrentWeather>(R.layout.ite
                 context.getString(R.string.current_temperature, data.current.temp)
 
             val imageRes =
-                WeatherUtils.getWeatherCodeImage(data.current.weatherCode, data.current.isNight)
+                WeatherMappers.getWeatherCodeImage(data.current.weatherCode, data.current.isNight)
             imageViewWeather.setImageDrawable(AppCompatResources.getDrawable(context, imageRes))
 
             textViewCurrentWeather.text =
-                WeatherUtils.getWeatherCodeName(data.current.weatherCode, context.resources)
+                WeatherMappers.getWeatherCodeName(data.current.weatherCode, context.resources)
             textViewCurrentWindSpeed.text = context.getString(
                 R.string.current_wind,
                 data.current.windSpeed,

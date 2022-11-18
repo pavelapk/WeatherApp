@@ -11,7 +11,7 @@ import ru.pavelapk.weatherapp.R
 import ru.pavelapk.weatherapp.databinding.ItemWeatherHourBinding
 import ru.pavelapk.weatherapp.domain.weather.model.HourWeather
 import ru.pavelapk.weatherapp.presentation.common.adapter.createDiff
-import ru.pavelapk.weatherapp.presentation.common.utils.WeatherUtils
+import ru.pavelapk.weatherapp.presentation.common.mappers.WeatherMappers
 
 class HourlyWeatherAdapter :
     ListAdapter<HourWeather, HourlyWeatherAdapter.HourWeatherViewHolder>(DIFF) {
@@ -33,7 +33,7 @@ class HourlyWeatherAdapter :
             val context = root.context
             textViewTemp.text = context.getString(R.string.temperature, data.temp)
 
-            val imageRes = WeatherUtils.getWeatherCodeImage(data.weatherCode, data.isNight)
+            val imageRes = WeatherMappers.getWeatherCodeImage(data.weatherCode, data.isNight)
             imageViewWeather.setImageDrawable(
                 AppCompatResources.getDrawable(
                     context,
@@ -49,5 +49,4 @@ class HourlyWeatherAdapter :
             oldItem.time == newItem.time
         }
     }
-
 }

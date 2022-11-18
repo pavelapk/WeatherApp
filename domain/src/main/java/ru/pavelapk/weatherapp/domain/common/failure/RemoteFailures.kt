@@ -12,7 +12,7 @@ class NoConnectionFailure(
     cause: Throwable? = null
 ) : CommonRemoteFailure(message, cause)
 
-class FetchDataFailure( // Ошибка при загрузке данных
+class ApiFailure(
     message: String? = null,
     cause: Throwable? = null
 ) : CommonRemoteFailure(message, cause)

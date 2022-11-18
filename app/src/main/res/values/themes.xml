@@ -8,11 +8,12 @@
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/white</item>
         <item name="backgroundColor">@color/white</item>
+        <item name="colorControlHighlight">@color/control_highlight_color</item>
     </style>
 
     <style name="Theme.WeatherApp.Splash" parent="Theme.SplashScreen">

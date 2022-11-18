@@ -1,10 +1,10 @@
-package ru.pavelapk.weatherapp.presentation.common.utils
+package ru.pavelapk.weatherapp.presentation.common.mappers
 
 import android.content.res.Resources
 import androidx.annotation.DrawableRes
 import ru.pavelapk.weatherapp.R
 
-object WeatherUtils {
+object WeatherMappers {
 
     fun getWeatherCodeName(weatherCode: Int, resources: Resources): String {
         val codes = resources.getStringArray(R.array.weather_codes)

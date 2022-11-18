@@ -12,7 +12,7 @@ import ru.pavelapk.weatherapp.databinding.ItemWeatherDayBinding
 import ru.pavelapk.weatherapp.domain.weather.model.DayWeather
 import ru.pavelapk.weatherapp.presentation.common.adapter.createDiff
 import ru.pavelapk.weatherapp.presentation.common.utils.DateTimeUtils
-import ru.pavelapk.weatherapp.presentation.common.utils.WeatherUtils
+import ru.pavelapk.weatherapp.presentation.common.mappers.WeatherMappers
 
 class DailyWeatherAdapter :
     ListAdapter<DayWeather, DailyWeatherAdapter.DayWeatherViewHolder>(DIFF) {
@@ -35,11 +35,11 @@ class DailyWeatherAdapter :
 
             textViewDate.text = DateTimeUtils.formatDate(data.date)
             textViewWeather.text =
-                WeatherUtils.getWeatherCodeName(data.weatherCode, context.resources)
+                WeatherMappers.getWeatherCodeName(data.weatherCode, context.resources)
             textViewMaxTemp.text = context.getString(R.string.temperature, data.maxTemp)
             textViewMinTemp.text = context.getString(R.string.temperature, data.minTemp)
 
-            val imageRes = WeatherUtils.getWeatherCodeImage(data.weatherCode, false)
+            val imageRes = WeatherMappers.getWeatherCodeImage(data.weatherCode, false)
             imageViewWeather.setImageDrawable(
                 AppCompatResources.getDrawable(
                     context,
@@ -54,5 +54,4 @@ class DailyWeatherAdapter :
             oldItem.date == newItem.date
         }
     }
-
 }
