@@ -3,7 +3,7 @@
 
     <style name="Theme.WeatherApp.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/primary</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/img_launch</item>
         <item name="postSplashScreenTheme">@style/Theme.WeatherApp</item>
 
         <item name="android:statusBarColor">@color/primary</item>
